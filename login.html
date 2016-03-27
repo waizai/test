@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆聊天室</title>
+    <style>
+        .login_div{margin: 230px 500px;}
+        button{width: 184px;height: 22px;}
+        .login_div div{margin-bottom: 5px;}
+    </style>
+</head>
+<body>
+<div class="login_div">
+    <div>
+        <span>账号：</span>
+        <input id="account" value="请输入账号" type="text"/>
+    </div>
+    <div>
+        <span>密码：</span>
+        <input id="code" value="请输入密码" type="text"/>
+    </div>
+    <button id="login">登陆</button>
+</div>
+<script>
+
+    function login(){
+        var login_button = document.getElementById('login');
+        var login_account = document.getElementById('account');
+        var login_code = document.getElementById('code');
+
+        login_button.onclick = function(){
+            var s_account = login_account.value;
+            var s_code = login_code.value;
+
+            if(s_account == ''){
+                alert('账号不能为空');
+                return;
+            }
+
+            if(s_code == ''){
+                alert('密码不能为空');
+                return;
+            }
+
+            if(s_account == '1'&& s_code =='2'){
+                alert('登陆成功');
+//                window.locatin ="chatroom.html";
+                window.open("chatroom1.html");
+            }else{
+                alert('用户名密码错误');
+            }
+
+
+
+        }
+        login_account.onfocus = function(){
+            if(login_account.value =='请输入账号'){
+                login_account.value = '';
+            }
+        }
+        login_code.onfocus = function(){
+            if(login_code.value =='请输入密码'){
+                login_code.value = '';
+            }
+        }
+        login_account.onblur = function(){
+            if(login_account.value ==''){
+                login_account.value = '请输入账号';
+            }
+        }
+        login_code.onblur = function(){
+            if(login_code.value ==''){
+                login_code.value = '请输入密码';
+            }
+        }
+    }
+    login();
+
+</script>
+</body>
+</html>

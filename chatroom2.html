@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>聊天室2</title>
+    <style>
+        p {
+            color: #7dcc99;
+            font-size: 26px;
+            margin: 10px 40px;
+            margin-top: 30px;
+        }
+
+        form {
+            margin: 20px 40px;
+        }
+
+        #history {
+            width: 560px;
+            height: 260px;
+            overflow: auto;
+            border:1px solid #979797;
+        }
+        .span{
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<p>聊天窗口二</p>
+
+<form>
+    <span>发送信息：</span><input id="input" type="text"/>
+    <input id="sender" type="button" value="提交"/>
+    <input id="reset" type="reset" value="重置"/>
+    <input id="close" type="button" value="关闭窗口"/>
+</form>
+<form>
+    <span>接收信息：</span><input id="received" type="text"/>
+</form>
+<form>
+    <span class="span">聊天记录：</span><textarea id="history"> </textarea>
+</form>
+<script>
+    var oInput = document.getElementById('input');
+    var oSender = document.getElementById('sender');
+    var oReset = document.getElementById('reset');
+    var oClose = document.getElementById('close');
+    var oHistory = document.getElementById('history');
+    var oReceived = document.getElementById('received');
+    var pars = window.opener;
+
+
+    init();
+
+
+    function init() {
+        oSender.onclick = send;
+        oReset.onclick = reset;
+        oClose.onclick = cl;
+    }
+
+
+    function send() {
+        var message = oInput.value;
+        if (message != "") {
+            pars.received(message);
+            oHistory.value += "窗口二：" + message+"\n";
+            oInput.value = "";
+        } else {
+            alert("发送内容不能为空！");
+        }
+    }
+    function received(msg) {
+        oReceived.value = msg;
+        oHistory.value += "窗口一：" + msg+"\n";
+    }
+    function reset() {
+        oInput.value = "";
+    }
+    function cl() {
+        window.close();
+    }
+</script>
+</body>
+</html>

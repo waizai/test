@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>聊天室1</title>
+    <style>
+        p {
+            color: #7dcc99;
+            font-size: 26px;
+            margin: 10px 40px;
+            margin-top: 30px;
+        }
+
+        button {
+            background-color: #7dcc99;
+            width: 180px;
+            height: 24px;
+            border: 1px solid #cccccc;
+            margin: 10px 40px;
+
+        }
+
+        form {
+            margin: 20px 40px;
+        }
+
+        #history {
+            width: 560px;
+            height: 260px;
+            overflow: auto;
+            border:1px solid #979797;
+        }
+        .span{
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<p>聊天窗口一</p>
+<button id="btn">聊天请打开另一个窗口</button>
+<form>
+    <span>发送信息：</span><input id="input" type="text"/>
+    <input id="sender" type="button" value="提交"/>
+    <input id="reset" type="reset" value="重置"/>
+    <input id="close" type="button" value="关闭窗口"/>
+</form>
+<form>
+    <span>接收信息：</span><input id="getmsg" type="text"/>
+</form>
+<form>
+    <span class="span">聊天记录：</span>
+    <textarea id="history"> </textarea>
+</form>
+
+<script>
+
+    var oBtn = document.getElementById('btn');
+    var oSender = document.getElementById('sender');
+    var oInput = document.getElementById('input');
+    var oGetmsg = document.getElementById('getmsg');
+    var oHistory = document.getElementById('history');
+    var oReset = document.getElementById('reset');
+    var oClose = document.getElementById('close');
+    var sub;
+
+    init();
+
+
+    function init() {
+        oBtn.onclick = openSub;
+        oSender.onclick = send;
+        oReset.onclick = reset;
+        oClose.onclick = cl;
+    }
+
+    function openSub() {
+        sub = window.open('chatroom2.html', 'height=700, width=700, top=0,left=0, toolbar=no, menubar=no, scrollbars=yes, resizable=yes,location=no, status=no');
+    }
+
+
+    function send() {
+        //1.判断输入内容，为空提示，返回
+        //2.不为空，发送数据
+        var message = oInput.value;
+        if (message != "") {
+            if(sub==null){
+                openSub();
+            }
+            sub.received(message);
+            oHistory.value += "窗口一："+message+"\n";
+            oInput.value = "";
+        } else {
+            alert("发送内容不能为空！");
+        }
+    }
+    function received(msg) {
+        //1.在 接收信息 显示
+        //2.在聊天记录显示
+        // alert("par : " + msg);
+        oGetmsg.value = msg;
+        oHistory.value += "窗口二："+msg+"\n";
+    }
+    function reset(){
+        oInput.value = "";
+    }
+    function cl(){
+        window.close();
+    }
+</script>
+</body>
+</html>
