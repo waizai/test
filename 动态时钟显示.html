@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div {
+            margin: 50px;
+            font-size: 50px;
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+
+显示动态时间
+<div>
+    <span id="times">0</span><a>:</a><span id="minute">0</span><a>:</a><span id="second">0</span>
+</div>
+
+<script>
+    var oTimes = document.getElementById('times');
+    var oMinute = document.getElementById('minute');
+    var oSecond = document.getElementById('second');
+    var x;
+    var y;
+    var z;
+
+    start();
+
+    function start() {
+        oTimes.innerHTML = 0;
+        oMinute.innerHTML = 0;
+        oSecond.innerHTML = 0;
+    }
+
+    var timer = setInterval(function () {
+                z = parseInt(oSecond.innerHTML);
+                y = parseInt(oMinute.innerHTML);
+                x = parseInt(oTimes.innerHTML);
+                z += 1;
+                if (z == 60) {
+                    z = 0;
+                    y += 1;
+                    if (y == 60) {
+                        y = 0;
+                        x += 1;
+                        if (x == 24) {
+                            stoplock();
+                        }
+                    }
+                }
+                oSecond.innerHTML = z;
+                oMinute.innerHTML = y;
+                oTimes.innerHTML = x;
+            }
+            , 1000
+    )
+    function stoplock() {
+        clearInterval(timer);
+    }
+
+</script>
+
+</body>
+</html>
