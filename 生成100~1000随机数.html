@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        ul {
+            list-style: none;
+            clear: both;
+        }
+
+        ul li {
+            float: left;
+        }
+
+        ul span {
+            display: block;
+            border: 1px solid #979797;
+            width: 70px;
+            height: 70px;
+            text-align: center;
+            margin: 3px;
+            line-height: 60px;
+        }
+    </style>
+</head>
+<body>
+生成100~1000之间的随机数
+<ul id="ul">
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+    <li>
+        <span>0</span>
+    </li>
+</ul>
+
+<script>
+    var oUl = document.getElementById('ul');
+    var aSpan = oUl.getElementsByTagName('span');
+
+//    run();
+//
+//    function run(){
+//        for (var i = 0; i <= aSpan.length;i++) {
+//            aSpan[i].innerHTML =parseInt( Math.random() * 900 + 100);
+//        }
+//    }
+
+    for (var i = 0; i <= aSpan.length;i++) {
+        aSpan[i].innerHTML =parseInt( Math.random() * 900 + 100);
+    }
+
+
+
+</script>
+
+</body>
+</html>
