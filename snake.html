@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+    </style>
+</head>
+<body style="position: relative;padding: 200px;" onkeydown="xKeyEvent(event)">
+
+<script>
+    /*
+     1. 画流程图；
+     2. 定义数据；-----坐标点，墙，蛇，食物；
+     3. 转化流程图为实现过程；-------1.先初始化数据；
+
+     数据：蛇：属性【长度 num】【方向 str】【位置 obj】
+     */
+
+    //对象
+
+    function Point(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    function Wall(points) {
+        this.points = points;
+    }
+    function Snake(points, direction) {
+        this.points = points;
+        this.direction = direction;
+    }
+    function Food(point) {
+        this.point = point;
+    }
+
+
+    //实例
+    var body = document.getElementsByTagName("body")[0];
+    var map;   //地图类对象
+    var snake; //蛇类对象
+    var food;  //食物类对象
+    var timer; //定时器对象
+    var sum = 0; //分数
+
+    init();
+    start();
+
+
+    //初始化
+    function init() {
+        createMap();
+        createSnake();
+        createFood();
+        draw();
+    }
+
+    //地图类
+    function createMap() {
+        var points = [];
+        for (var i = 0; i <= 50; i++) {
+            points.push(new Point(i, 0));
+        }
+        for (var i = 0; i <= 50; i++) {
+            points.push(new Point(0, i));
+        }
+        for (var i = 0; i <= 50; i++) {
+            points.push(new Point(i, 50));
+        }
+        for (var i = 0; i <= 50; i++) {
+            points.push(new Point(50, i));
+        }
+        map = new Wall(points);
+
+    }
+
+    function createSnake() {
+        var points = [];
+        points.push(new Point(5, 5));
+        var direction = "right";
+        snake = new Snake(points, direction);
+    }
+
+    function createFood() {
+        var x = parseInt(Math.random() * 50);
+        var y = parseInt(Math.random() * 50);
+        food = new Food(new Point(x, y));
+    }
+
+    function draw() {
+        //清空body
+        body.innerHTML = "";
+
+        //画墙
+        for (var i = 0; i < map.points.length; i++) {
+            drawPoint(map.points[i]);
+        }
+        //画蛇
+        for (var i = 0; i < snake.points.length; i++) {
+            drawPoint(snake.points[i]);
+        }
+
+        //画食物
+        drawPoint(food.point);
+
+    }
+    //启动定时任务；
+    function start() {
+        timer = setInterval(function () {
+            run()
+        }, 300);
+    }
+    //吃：给吃的豆当成头；
+    // 移动：给尾巴拿下来，放头上；
+    function run() {
+        var next;
+        var head = snake.points[0];
+        var tail = snake.points[snake.points.length - 1];
+        switch (snake.direction) {
+            case "up":
+                next = new Point(head.x, head.y - 1);
+                break;
+            case "right":
+                next = new Point(head.x + 1, head.y);
+                break;
+            case "bottom":
+                next = new Point(head.x, head.y + 1);
+                break;
+            case "left":
+                next = new Point(head.x - 1, head.y);
+                break;
+        }
+        snake.points.unshift(next);
+        if (next.x != food.point.x || next.y != food.point.y) {
+            snake.points.pop();
+        }else {
+            createFood();
+            sum++;
+        }
+        draw();
+        if (containPoint(next, map.points) > 0 || containPoint(next, snake.points) > 1) {
+            stop();
+        }
+    }
+    function stop() {
+        clearInterval(timer);
+        alert("游戏结束"+"分数："+sum);
+    }
+
+    //画点方法
+    function drawPoint(point) {
+        var _map = document.createElement('div');
+        _map.style.width = 10 + 'px';
+        _map.style.height = 10 + 'px';
+        _map.style.background = '#ff0000';
+        _map.style.position = 'absolute';
+        _map.style.left = 10*point.x + 'px';
+        _map.style.top = 10*point.y + 'px';
+
+        body.appendChild(_map);
+
+    }
+
+    function containPoint(newpoint, points) {
+        var num = 0;
+        for (var i = 0; i < points.length; i++) {
+            var point = points[i];
+            if (newpoint.x == point.x && newpoint.y == point.y) {
+                num++;
+            }
+        }
+        return num;
+    }
+    function xKeyEvent(e) {   //通用的兼容各个浏览器的响应键盘事件函数
+                              // FUNCTION: do the EVENT of KEY
+        var e = e || window.event;  //事件处理
+        switch (e.keyCode | e.which | e.charCode)  //按键 ASCII 码值
+        {
+            case 37: //向左方向键
+            {
+                snake.direction="left";
+                break;
+            }
+
+            case 38: //向上方向键
+            {
+                snake.direction="up";
+                break;
+            }
+
+            case 39: //向右方向键
+            {
+                snake.direction="right";
+                break;
+            }
+
+            case 40: //向下方向键
+            {
+                snake.direction="bottom";
+                break;
+            }
+        }
+    }
+
+
+</script>
+</body>
+</html>
